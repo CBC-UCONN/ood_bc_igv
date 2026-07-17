@@ -3,5 +3,5 @@ name: IGV
 category: Interactive Apps
 role: batch_connect
 description: |
-  This app will launch IGV.
+  Integrative Genomics Viewer (IGV) is a high-performance visualization tool for interactive exploration of large, integrated genomic datasets.
 
