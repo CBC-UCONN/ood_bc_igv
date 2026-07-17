@@ -1,0 +1,14 @@
+---
+batch_connect:
+  template: vnc
+  set_host: "host=$(hostname -f)"
+  script_wrapper: |
+    export PATH=/opt/TurboVNC/bin:$PATH
+    export WEBSOCKIFY_CMD=/usr/bin/websockify
+    %s
+
+script:
+  qos: test
+  native: [
+    "--partition=test",
+    "--mem=16gb"]

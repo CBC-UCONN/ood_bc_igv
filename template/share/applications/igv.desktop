@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=IGV
+Comment=IGV
+Exec=igv.sh
+Icon=icon.png
+Terminal=true
+Categories=Data Viewers;
+StartupNotify=true

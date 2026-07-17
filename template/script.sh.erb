@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+cd "${HOME}"
+(
+  export SEND_256_COLORS_TO_REMOTE=1
+  export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+  export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+  export XDG_CACHE_HOME="$(mktemp -d)"
+  export XDG_RUNTIME_DIR="$(mktemp -d)"
+  chmod 700 "$XDG_RUNTIME_DIR"
+
+  eval "$(dbus-launch --sh-syntax --exit-with-session)"
+
+  set -x
+  echo "Display is: $DISPLAY"
+  echo "XDG_RUNTIME_DIR is: $XDG_RUNTIME_DIR"
+
+  xfwm4 --compositor=off --sm-client-disable > "<%= session.staged_root.join("xfwm4.log") %>" 2>&1 &
+
+  for i in $(seq 1 20); do
+    xprop -root _NET_SUPPORTING_WM_CHECK >/dev/null 2>&1 && break
+    sleep 0.5
+  done
+
+  xsetroot -solid "#D3D3D3"
+
+  xfsettingsd --sm-client-disable > /dev/null 2>&1 &
+  xfce4-panel --sm-client-disable > /dev/null 2>&1 &
+
+  # Launch IGV
+  module load igv
+  igv.sh > "<%= session.staged_root.join("igv.log") %>" 2>&1 &
+
+  # Wait for the IGV window to appear, then maximize it
+  (
+    for i in $(seq 1 40); do
+      WIN_ID=$(wmctrl -l | awk 'tolower($0) ~ /igv/ {print $1; exit}')
+      if [ -n "$WIN_ID" ]; then
+        wmctrl -i -r "$WIN_ID" -b add,maximized_vert,maximized_horz
+        break
+      fi
+      sleep 0.5
+    done
+  ) &
+
+) &
+sleep infinity
