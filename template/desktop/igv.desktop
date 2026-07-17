@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=IGV
+Comment=Launch Integrative Genomics Viewer
+Exec=bash -c '"$OOD_STAGED_ROOT/launch.sh"'
+Terminal=false
+StartupNotify=true
+Categories=Science;
