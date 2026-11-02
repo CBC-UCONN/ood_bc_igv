@@ -4,8 +4,16 @@ cluster: "mantis"
 attributes:
   bc_vnc_idle: 0
 
-  bc_vnc_resolution: 
+  bc_vnc_resolution:
     required: true
+
+  custom_memory:
+    widget: "number_field"
+    label: "GB Memory"
+    help: "GB of memory to request. 8 is generally sufficient."
+    value: 8
+    max: 32
+    display: true
 
   bc_num_hours:
     widget: "number_field"
@@ -17,3 +25,4 @@ attributes:
 
 form:
   - bc_num_hours
+  - custom_memory

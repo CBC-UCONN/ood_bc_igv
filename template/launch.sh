@@ -1,4 +1,6 @@
 
+
+
 # Prevent multiple instances from being able to run
 LOCKFILE="$OOD_STAGED_ROOT/igv.lock"
 if [ -f "$LOCKFILE" ] && kill -0 "$(cat "$LOCKFILE")" 2>/dev/null; then
@@ -7,7 +9,10 @@ fi
 
 # Command to launch app
 module load igv
-igv.sh > $OOD_STAGED_ROOT/igv.log 2>&1 &
+
+# Run IGV
+$OOD_STAGED_ROOT/custom_igv.sh > $OOD_STAGED_ROOT/igv.log 2>&1 &
+# igv.sh > $OOD_STAGED_ROOT/igv.log 2>&1 &
 
 echo $! > "$LOCKFILE"
 
